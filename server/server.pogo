@@ -50,12 +50,6 @@ app.use @(req, res, next)
   else
     next ()
 
-app.get '/' @(req, res, next)
-  if (req.user)
-    res.end (JSON.stringify(req.user))
-  else
-    res.end '<a href="/auth/freeagent">Login with FreeAgent</a>'
-
 app.get '/auth/freeagent' (passport.authenticate 'freeagent' (scope: 'Time'))
 
 app.get '/auth/freeagent/callback' (

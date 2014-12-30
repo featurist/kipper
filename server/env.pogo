@@ -3,7 +3,7 @@ keys = ['FREEAGENT_CLIENT_ID', 'FREEAGENT_CLIENT_SECRET']
 localEnv (key) =
   if (@not (localEnv.json :: Object))
     try
-      localEnv.json = require './env.json'
+      localEnv.json = require '../env.json'
     catch (e)
       throw (@new Error "No key #(key) in process.env or ./env.json")
 
