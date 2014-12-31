@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "pogo server/server.pogo",
-    "postinstall": "browserify client/client.pogo -t pogoify --extension .pogo -o public/client.js"
+    "postinstall": "browserify client/client.pogo -t pogoify --extension .pogo -o public/client.js",
+    "watch": "watchify client/client.pogo -t pogoify --extension .pogo -o public/client.js"
   },
   "engines": {
     "node": "0.10.x"
@@ -20,10 +21,16 @@
     "cookie-parser": "^1.3.3",
     "express": "^4.10.6",
     "express-session": "^1.9.3",
+    "moment": "^2.8.4",
     "passport": "^0.2.1",
     "passport-oauth": "^1.0.0",
-    "plastiq": "^1.5.1",
+    "plastiq": "git://github.com/featurist/plastiq.git#onattach",
     "pogo": "^0.9.6",
-    "pogoify": "^0.1.1"
+    "pogoify": "^0.1.1",
+    "superagent": "^0.21.0",
+    "underscore": "^1.7.0"
+  },
+  "devDependencies": {
+    "watchify": "^2.2.1"
   }
 }

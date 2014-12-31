@@ -1,3 +1,34 @@
 body {
   font-family: sans-serif;
+  color: #111;
+}
+
+h1 {
+  font-size: 1.1em;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li.day {
+  margin: 5px;
+  padding: 10px;
+  background: #F5A9A9;
+  border-radius: 5px;
+}
+
+li.day.logged {
+  background: lightgreen;
+}
+
+li.day.weekend {
+  background: #efefef;
+}
+
+li.day li {
 }

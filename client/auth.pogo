@@ -1,13 +1,20 @@
 cookie = require 'cookie-cutter'
 
+authenticated = false
+
 queryStringParam (name) =
   match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search)
   match @and decodeURIComponent(match.1.replace(r/\+/g, ' '))
 
-token = queryStringParam 'accessToken'
+accessToken = queryStringParam 'accessToken'
 
-if (token :: String)
-  cookie.set('accessToken', token)
+if (accessToken :: String)
+  cookie.set('accessToken', accessToken)
   window.location.replace '/'
 else
-  exports.token = cookie.get 'accessToken'
+  accessToken := cookie.get 'accessToken'
+  authenticated := true
+
+exports.attach (model) =
+  model.authenticated = authenticated
+  model.accessToken = accessToken
