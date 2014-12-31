@@ -13,7 +13,7 @@ if (accessToken :: String)
   window.location.replace '/'
 else
   accessToken := cookie.get 'accessToken'
-  authenticated := true
+  authenticated := (accessToken :: String)
 
 exports.attach (model) =
   model.authenticated = authenticated

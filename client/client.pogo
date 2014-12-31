@@ -15,6 +15,6 @@ render (model) =
   if (model.authenticated)
     calendar.render (h, model)
   else
-    h 'a' { href = '/auth/freeagent' } 'Login with FreeAgent'
+    h 'a.login' { href = '/auth/freeagent' } 'Login with FreeAgent'
 
 plastiq.attach (document.body, render, model)
