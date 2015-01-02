@@ -18,3 +18,7 @@ else
 exports.attach (model) =
   model.authenticated = authenticated
   model.accessToken = accessToken
+
+exports.signOut() =
+  cookie.set('accessToken', '', { expires = @new Date(0) })
+  window.location.replace '/'

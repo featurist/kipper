@@ -1,32 +1,122 @@
 body {
-  font-family: sans-serif;
-  color: #111;
+  font-family: Helvetica, sans-serif;
+  color: #222;
+  background-color: #fff;
+  margin: 0;
 }
 
 h1 {
+  float: left;
+  width: 200px;
+  padding: 0;
+  margin: 0;
+  margin-top: 6px;
+  font-size: 1.1em;
+  text-indent: 6px;
+}
+
+.loading {
+  margin: 50px auto;
+  text-align: center;
+}
+
+.header td {
+  height: 55px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header .user {
+  float: right;
+  padding: 10px;
+  font-size: 0.8em;
+}
+
+.header .user a {
+  color: #335;
+  text-decoration: none;
+  display: inline-block;
+  margin-left: 5px;
+  font-weight: bold;
+  font-size: 0.85em;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table.days {
+  margin: auto;
+  margin-bottom: 60px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+tr.day {
+  border-radius: 10px;
+}
+
+tr.day > td {
+  padding: 4px;
+  border-bottom: 1px solid #dde;
+}
+
+td.time {
+  vertical-align: top;
+}
+
+.days time {
   font-size: 1.1em;
   margin: 0;
   padding: 0;
-}
-
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-li.day {
-  margin: 5px;
-  padding: 10px;
-  background: #F5A9A9;
+  float: left;
+  background-color: #fffff9;
+  padding: 3px;
+  width: 40px;
+  margin-right: 5px;
   border-radius: 5px;
 }
 
-li.day.logged {
-  background: lightgreen;
+.days time span {
+  display: block;
+  text-align: center;
+  font-size: 0.6em;
+  color: #666;
 }
 
-li.day.weekend {
+.days time span.day-of-week {
+  font-weight: normal;
+}
+
+.days time span.day-of-month {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #222;
+}
+
+.days time span.month {
+  display: none;
+}
+
+.weekend time {
+  background-color: #efefef;
+  border: 1px solid #ddd;
+}
+.days .weekend time span {
+  color: #555;
+}
+
+.day {
+  margin: 0;
+  padding: 4px;
+  background: #FAC0C0;
+  clear: both;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+}
+
+.day.logged {
+  background: rgb(199, 250, 199);
+}
+
+.day.weekend {
   background: #efefef;
 }
 
@@ -46,4 +136,56 @@ a.login {
 a.login:hover {
   background-color: #ccc;
   color: white;
+}
+
+div.time-input {
+  float: left;
+}
+
+.tasks td {
+  font-size: 0.8em;
+}
+
+.time-input input,
+.time-input select,
+.time-input button {
+  margin: 0 5px;
+  background-color: transparent;
+  border: 1px solid #D0A1A1;
+  height: 20px;
+  border-radius: 0;
+}
+
+.logged .time-input input,
+.logged .time-input select,
+.logged .time-input button {
+  border-color: #A7CDA7;
+}
+
+.weekend .time-input input,
+.weekend .time-input select,
+.weekend .time-input button {
+  border-color: #777;
+}
+
+.time-input a {
+  text-decoration: none;
+  margin-right: 5px;
+  font-size: 1.2em;
+  color: #555;
+}
+
+.time-input {
+  white-space: nowrap;
+}
+
+input.hours {
+  width: 25px;
+  font-size: 0.8em;
+  text-align: center;
+  margin-left: -3px;
+}
+
+a.enable-entry {
+  display: block;
 }
