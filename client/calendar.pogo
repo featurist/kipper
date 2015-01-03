@@ -26,7 +26,14 @@ module.exports (model, freeagent) =
           formattedMonth = date.format('MMM')
           date = yyyymmdd
           day = date.format('dddd')
-          timeslips = timeslips
+          timeslips = [
+            t <- timeslips
+            {
+              hours = t.timeslip.hours
+              projectName = t.project.name
+              taskName = t.task.name
+            }
+          ]
           totalHours = timeslips.map(@(t) @{ parseFloat(t.timeslip.hours) }) \
                                 .reduce @(a, b) @{ a + b } 0
         }
@@ -39,8 +46,14 @@ module.exports (model, freeagent) =
         model.projects.map @(project)
           project.tasks.map @(task)
             {
-              project = project
-              task = task
+              project = {
+                name = project.name
+                url = project.url
+              }
+              task = {
+                name = task.name
+                url = task.url
+              }
             }
       )
 
@@ -70,10 +83,6 @@ module.exports (model, freeagent) =
       task = _.find(project.tasks, @(t) @{ t.url == slip.task.url })
       if (@not task)
         project.tasks.push(slip.task)
-
-  changedTask (e) =
-    if (e.target.value == 'Other...')
-      fetchProjects ()!
 
   enableEntry (day) =
     @(e) @{
@@ -116,10 +125,12 @@ module.exports (model, freeagent) =
               )
             )
             model.days.map @(day)
-              h 'tr.day' { class = {
-                weekend = day.weekend
-                logged = day.totalHours == 8
-              } } (
+              h 'tr.day' {
+                class = {
+                  weekend = day.weekend
+                  logged  = day.totalHours == 8
+                }
+              } (
                 h 'td.time' (
                   h 'time' (
                     h 'span.day-of-week'  (day.formattedDayOfWeek)
@@ -127,49 +138,44 @@ module.exports (model, freeagent) =
                     h 'span.month'        (day.formattedMonth)
                   )
                 )
-                h 'td.tasks' (
-                  h 'table.tasks' (
+                h 'td.timeslips' (
+                  h 'table' (
                     day.timeslips.map @(ts)
-                      h 'tr' (
+                      h 'tr.time-display' (
                         h 'td' (
-                          parseFloat(ts.timeslip.hours).toString()
+                          parseFloat(ts.hours).toString()
                           ' hours '
-                          ts.project.name
+                          ts.projectName
                           ' - '
-                          ts.task.name
-                        )
-                      )
-
-                    if (day.enableEntry)
-                      h 'tr.time-input' (
-                        h 'td' (
-                          h 'input.hours' {
-                            type = 'text'
-                            binding = [day, 'hours']
-                          }
-                          'hours'
-                          h 'select' {
-                            onchange = changedTask
-                            binding = [day, 'task']
-                          } (
-                            model.tasks.map @(t)
-                              h 'option' { value = t } (
-                                "#(t.project.name) - #(t.task.name)"
-                              )
-                          )
-                          h 'button' { onclick = addTimeslip(day) } 'Add'
-                        )
-                      )
-                    else
-                      h 'tr.time-input' (
-                        h 'td' (
-                          h 'a.enable-entry' {
-                            href = '#'
-                            onclick = enableEntry(day)
-                          } '...'
+                          ts.taskName
                         )
                       )
                   )
+
+                  if (day.enableEntry)
+                    h 'div.time-input' (
+                      h 'input.hours' {
+                        type = 'text'
+                        binding = [day, 'hours']
+                      }
+                      'hours'
+                      h 'select' {
+                        binding = [day, 'task']
+                      } (
+                        model.tasks.map @(t)
+                          h 'option' { value = t } (
+                            "#(t.project.name) - #(t.task.name)"
+                          )
+                      )
+                      h 'button' { onclick = addTimeslip(day) } 'Add'
+                    )
+                  else
+                    h 'div.time-input.entry-disabled' (
+                      h 'a.enable-entry' {
+                        href = '#'
+                        onclick = enableEntry(day)
+                      } '...'
+                    )
                 )
               )
           )
