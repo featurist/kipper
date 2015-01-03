@@ -50,12 +50,8 @@ table.days {
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-tr.day {
-  border-radius: 10px;
-}
-
 tr.day > td {
-  padding: 4px;
+  padding: 5px;
   border-bottom: 1px solid #dde;
 }
 
@@ -73,6 +69,7 @@ td.time {
   width: 40px;
   margin-right: 5px;
   border-radius: 5px;
+  border: 1px solid #eee;
 }
 
 .days time span {
@@ -98,7 +95,6 @@ td.time {
 
 .weekend time {
   background-color: #efefef;
-  border: 1px solid #ddd;
 }
 .days .weekend time span {
   color: #555;
@@ -107,17 +103,17 @@ td.time {
 .day {
   margin: 0;
   padding: 4px;
-  background: #FAC0C0;
+  background: #ffecec;
   clear: both;
-  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  border-bottom: 1px solid rgba(5, 5, 5, 0.05);
 }
 
 .day.logged {
-  background: rgb(199, 250, 199);
+  background: #eaffea;
 }
 
 .day.weekend {
-  background: #efefef;
+  background: #f7f7f7;
 }
 
 a.login {
@@ -177,6 +173,10 @@ div.time-input {
 
 .time-input {
   white-space: nowrap;
+}
+
+.time-display {
+  font-size: 0.8em;
 }
 
 input.hours {
