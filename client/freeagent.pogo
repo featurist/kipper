@@ -7,7 +7,7 @@ apiUrl (path) =
   else
     'https://api.freeagent.com/v2/' + path
 
-exports.connect (accessToken)! =
+exports.connect (accessToken, expiredAuthCallback)! =
 
   tempCache () = {
     promises = {}
@@ -21,9 +21,15 @@ exports.connect (accessToken)! =
   }
 
   get (path) ! =
-    request.get(apiUrl(path)) \
-           .set('Accept', 'application/json') \
-           .set('Authorization', 'Bearer ' + accessToken).end ^!
+    response = request.get(apiUrl(path)) \
+                      .set('Accept', 'application/json') \
+                      .set('Authorization', 'Bearer ' + accessToken).end ^!
+
+    if (response.status == 401)
+      expiredAuthCallback ()
+      response
+    else
+      response
 
   post (path, data) ! =
     request.post(apiUrl(path)) \
@@ -80,6 +86,9 @@ exports.connect (accessToken)! =
       } !
       cache = tempCache()
       self.populateTimeslip (response.body.timeslip, cache) !
+
+    onExpiredAuthorisation (callback) =
+      expiredAuthCallback := callback
 
   }
   freeagent.me () !

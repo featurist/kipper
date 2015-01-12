@@ -1,20 +1,17 @@
+plastiq = require 'plastiq'
+h = plastiq.html
+
 model = {}
 
 auth = require './auth'
 auth.attach (model)
 
-freeagent = require './freeagent'
-client = freeagent.connect (model.accessToken)!
-
-calendar = (require './calendar')(model, client)
-
-plastiq = require 'plastiq'
-h = plastiq.html
-
-render (model) =
-  if (model.authenticated)
-    calendar.render (h, model)
-  else
-    h 'a.login' { href = '/auth/freeagent' } 'Login with FreeAgent'
-
-plastiq.attach (document.body, render, model)
+if (model.authenticated)
+  freeagent = require './freeagent'
+  client = freeagent.connect (model.accessToken, auth.signOut)!
+  calendar = (require './calendar')(model, client)
+  renderAuthenticated (model) = calendar.render (h, model)
+  plastiq.attach (document.body, renderAuthenticated, model)
+else
+  renderUnauthenticated (model) = h 'a.login' { href = '/auth/freeagent' } 'Login with FreeAgent'
+  plastiq.attach (document.body, renderUnauthenticated, model)
