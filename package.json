@@ -24,7 +24,7 @@
     "moment": "^2.8.4",
     "passport": "^0.2.1",
     "passport-oauth": "^1.0.0",
-    "plastiq": "git://github.com/featurist/plastiq.git#onattach",
+    "plastiq": "git://github.com/featurist/plastiq.git",
     "pogo": "^0.9.6",
     "pogoify": "^0.1.1",
     "superagent": "^0.21.0",

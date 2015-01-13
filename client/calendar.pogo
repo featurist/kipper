@@ -65,10 +65,12 @@ module.exports (model, freeagent) =
       model.user = freeagent._user
 
   fetchProjects () =
+    console.log("FETCH PROJECTS...")
     freeagent.projects().then @(projects)
       model.projects = projects
 
   fetchCompany () =
+    console.log("FETCH COMPANY...")
     freeagent.company().then @(company)
       model.company = company
 
@@ -105,79 +107,86 @@ module.exports (model, freeagent) =
 
   {
     render (h, model) =
-      h 'div.calendar' { onattach = fetchTimeslips } (
-        if (model.loading)
-          h 'div.loading' 'Loading...'
-        else
-          h 'table.days' (
-            h 'tr.header' (
-              h 'td' { colSpan = '2', onattach = fetchCompany } (
-                h 'h1' 'Kipper'
-                if (model.user)
-                  h 'div.user' (
-                    h 'span.name' (
-                      model.user.first_name
-                      ' '
-                      model.user.last_name
-                    )
-                    h 'a' { href = '#', onclick = signOut } 'Sign Out'
-                  )
-              )
-            )
-            model.days.map @(day)
-              h 'tr.day' {
-                class = {
-                  weekend = day.weekend
-                  logged  = day.totalHours == 8
-                }
-              } (
-                h 'td.time' (
-                  h 'time' (
-                    h 'span.day-of-week'  (day.formattedDayOfWeek)
-                    h 'span.day-of-month' (day.formattedDayOfMonth)
-                    h 'span.month'        (day.formattedMonth)
-                  )
-                )
-                h 'td.timeslips' (
-                  h 'table' (
-                    day.timeslips.map @(ts)
-                      h 'tr.time-display' (
-                        h 'td' (
-                          parseFloat(ts.hours).toString()
-                          ' hours '
-                          ts.projectName
-                          ' - '
-                          ts.taskName
+      console.log ("RENDER!")
+      h.component(
+        { onadd = fetchTimeslips }
+        h 'div.calendar' (
+          if (model.loading)
+            h 'div.loading' 'Loading...'
+          else
+            h 'table.days' (
+              h 'tr.header' (
+                h.component(
+                  { onadd = fetchCompany }
+                  h 'td' { colSpan = '2' } (
+                    h 'h1' 'Kipper'
+                    if (model.user)
+                      h 'div.user' (
+                        h 'span.name' (
+                          model.user.first_name
+                          ' '
+                          model.user.last_name
                         )
+                        h 'a' { href = '#', onclick = signOut } 'Sign Out'
                       )
                   )
-
-                  if (day.enableEntry)
-                    h 'div.time-input' (
-                      h 'input.hours' {
-                        type = 'text'
-                        binding = [day, 'hours']
-                      }
-                      'hours'
-                      h 'select' {
-                        binding = [day, 'task']
-                      } (
-                        model.tasks.map @(t)
-                          h 'option' { value = t } (
-                            "#(t.project.name) - #(t.task.name)"
-                          )
-                      )
-                      h 'button' { onclick = addTimeslip(day) } 'Add'
-                    )
-                  else
-                    h 'div.time-input.entry-disabled' (
-                      h 'a.enable-entry' {
-                        href = '#'
-                        onclick = enableEntry(day)
-                      } '...'
-                    )
                 )
               )
-          )
+              model.days.map @(day)
+                h 'tr.day' {
+                  class = {
+                    weekend = day.weekend
+                    logged  = day.totalHours == 8
+                  }
+                } (
+                  h 'td.time' (
+                    h 'time' (
+                      h 'span.day-of-week'  (day.formattedDayOfWeek)
+                      h 'span.day-of-month' (day.formattedDayOfMonth)
+                      h 'span.month'        (day.formattedMonth)
+                    )
+                  )
+                  h 'td.timeslips' (
+                    h 'table' (
+                      day.timeslips.map @(ts)
+                        h 'tr.time-display' (
+                          h 'td' (
+                            parseFloat(ts.hours).toString()
+                            ' hours '
+                            ts.projectName
+                            ' - '
+                            ts.taskName
+                          )
+                        )
+                    )
+
+                    if (day.enableEntry)
+                      h 'div.time-input' (
+                        h 'input.hours' {
+                          type = 'text'
+                          binding = [day, 'hours']
+                        }
+                        'hours'
+                        h 'select' {
+                          binding = [day, 'task']
+                        } (
+                          model.tasks.map @(t)
+                            h 'option' { value = t } (
+                              "#(t.project.name) - #(t.task.name)"
+                            )
+                        )
+                        h 'button' { onclick = addTimeslip(day) } 'Add'
+                      )
+                    else
+                      h 'div.time-input.entry-disabled' (
+                        h 'a.enable-entry' {
+                          href = '#'
+                          onclick = enableEntry(day)
+                        } '...'
+                      )
+                  )
+                )
+            )
+        )
       )
   }
